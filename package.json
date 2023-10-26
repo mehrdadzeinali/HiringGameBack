@@ -1,0 +1,29 @@
+{
+  "name": "hiringgameback",
+  "version": "1.0.0",
+  "description": "the back end of my hring game project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mehrdadzeinali/HiringGameBack.git"
+  },
+  "author": "mehrdad zeinali",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mehrdadzeinali/HiringGameBack/issues"
+  },
+  "homepage": "https://github.com/mehrdadzeinali/HiringGameBack#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "knex": "^3.0.1",
+    "mongoose": "^7.6.3",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.6.2"
+  }
+}
