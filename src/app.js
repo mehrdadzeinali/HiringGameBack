@@ -1,17 +1,15 @@
 const express = require('express');
-const authRoutes = require('./routes/auth');  // Import auth routes
-const routes = require('./routes/index');  // Import other routes
+const cors = require('cors');  // Import the CORS package here
+const authRoutes = require('./routes/auth');
+const routes = require('./routes/index');
 
-const app = express();  // Create an Express application
+const app = express();
 
-app.use(express.json());  // Parse incoming JSON payloads
+app.use(cors());  // Use the CORS middleware here
+app.use(express.json());
 
 // Include your routes
-app.use('/', routes);  // General routes
-app.use('/api/auth', authRoutes);  // Auth routes
+app.use('/', routes);
+app.use('/api/auth', authRoutes);
 
-app.listen(3000, () => {
-  console.log('Server running on http://localhost:3000/');
-});
-
-module.exports = app;  // Export the app (if needed for other parts like testing)
+module.exports = app;
