@@ -4,6 +4,7 @@ const authRoutes = require('./routes/auth');
 const profile = require('./routes/employee')
 const routes = require('./routes/index');
 
+
 const app = express();
 
 app.use(cors());  // Use the CORS middleware here

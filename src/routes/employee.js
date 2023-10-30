@@ -1,9 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' }); // Define where uploaded files will be stored
+const upload = multer({ dest: 'uploads/' });
+const cloudinary = require('cloudinary').v2;
 
-const employeeModel = require('../models/employeeSchema'); // Your employee model
+cloudinary.config({ 
+  cloud_name: 'dteijjl08', 
+  api_key: '389839192938178', 
+  api_secret: 'Py58yAs5rUiD7ipT04MiChzMT-4' 
+});
+
+const employeeModel = require('../models/employee'); // Your employee model
 
 // Route to create a new employee profile
 router.post('/create', upload.fields([{ name: 'cv', maxCount: 1 }, { name: 'profilePhoto', maxCount: 1 }]), async (req, res) => {
@@ -24,11 +31,19 @@ router.post('/create', upload.fields([{ name: 'cv', maxCount: 1 }, { name: 'prof
       languages,
     } = req.body;
 
-    // Check if email is already registered
-    // const existingEmployee = await employeeModel.getEmployeeByEmail(email);
-    // if (existingEmployee) {
-    //   return res.status(400).json({ error: 'Email already registered' });
-    // }
+    // Upload profile photo to Cloudinary
+    let profilePhotoURL = null;
+    if (req.files && req.files.profilePhoto) {
+      const result = await cloudinary.uploader.upload(req.files.profilePhoto[0].path);
+      profilePhotoURL = result.secure_url;
+    }
+
+    // The same goes for CV if it's an image/document
+    let cvURL = null;
+    if (req.files && req.files.cv) {
+      const result = await cloudinary.uploader.upload(req.files.profilePhoto[0].path);
+      cvURL = result.secure_url;
+    }
 
     // Create a new employee document
     const newEmployee = {
@@ -45,11 +60,10 @@ router.post('/create', upload.fields([{ name: 'cv', maxCount: 1 }, { name: 'prof
       city,
       situation,
       languages,
-      cv: req.files?.cv ? req.files.cv[0].path : null, // Updated this line
-      profilePhoto: req.files?.profilePhoto ? req.files.profilePhoto[0].path : null, // And this one
+      cv: cvURL,
+      profilePhoto: profilePhotoURL,
     };
 
-    // Save the employee document to the database
     await employeeModel.createEmployee(newEmployee);
 
     res.status(201).json({ message: 'Employee profile created successfully' });
