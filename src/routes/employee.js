@@ -58,6 +58,19 @@ router.post('/create', upload.fields([{ name: 'cv', maxCount: 1 }, { name: 'prof
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-// Add more routes for updating, fetching, or deleting employee profiles as needed
+
+router.get('/:id', async (req, res) => {
+  try {
+    const employee = await employeeModel.getEmployeeById(req.params.id);
+    if (!employee) {
+      return res.status(404).json({ error: 'Employee not found' });
+    }
+    res.status(200).json(employee);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 module.exports = router;

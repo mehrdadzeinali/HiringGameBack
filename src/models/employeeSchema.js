@@ -40,4 +40,13 @@ module.exports = {
     // Return the result
     return rows[0];
   },
+
+  async getEmployeeById(id) {
+    const sql = 'SELECT * FROM employee_profiles WHERE id = ?';
+
+    const [rows] = await db.query(sql, [id]);
+
+    return rows[0];
+  },
+
 };
