@@ -38,10 +38,10 @@ router.post('/create', upload.fields([{ name: 'cv', maxCount: 1 }, { name: 'prof
       profilePhotoURL = result.secure_url;
     }
 
-    // The same goes for CV if it's an image/document
+    // Upload cv to Cloudinary
     let cvURL = null;
     if (req.files && req.files.cv) {
-      const result = await cloudinary.uploader.upload(req.files.profilePhoto[0].path);
+      const result = await cloudinary.uploader.upload(req.files.cv[0].path, { resource_type: 'raw' });
       cvURL = result.secure_url;
     }
 
