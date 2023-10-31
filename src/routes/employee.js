@@ -66,11 +66,13 @@ router.post('/create', upload.fields([{ name: 'cv', maxCount: 1 }, { name: 'prof
       profilePhoto: profilePhotoURL,
     };
 
-    await employeeModel.createEmployee(newEmployee);
+    const employeeinfo = await employeeModel.createEmployee(newEmployee);
+
+    console.log(employeeinfo)
 
     rimraf.sync('uploads');
 
-    res.status(201).json({ message: 'Employee profile created successfully' });
+    res.status(201).json({ message: 'Employee profile created successfully', id: employeeinfo.insertId });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
