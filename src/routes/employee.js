@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const cloudinary = require('cloudinary').v2;
+const rimraf = require('rimraf');
 
 cloudinary.config({ 
   cloud_name: 'dteijjl08', 
@@ -44,6 +45,7 @@ router.post('/create', upload.fields([{ name: 'cv', maxCount: 1 }, { name: 'prof
       const result = await cloudinary.uploader.upload(req.files.cv[0].path, { resource_type: 'raw' });
       cvURL = result.secure_url;
     }
+    
 
     // Create a new employee document
     const newEmployee = {
@@ -65,6 +67,8 @@ router.post('/create', upload.fields([{ name: 'cv', maxCount: 1 }, { name: 'prof
     };
 
     await employeeModel.createEmployee(newEmployee);
+
+    rimraf.sync('uploads');
 
     res.status(201).json({ message: 'Employee profile created successfully' });
   } catch (error) {
