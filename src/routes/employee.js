@@ -33,7 +33,45 @@ router.post('/create', upload.fields([{ name: 'cv', maxCount: 1 }, { name: 'prof
       });
     }
 
-    if (req.files && req.files.cv) {
+    if (req.files && req.files.cv) {router.get('/list', async (req, res) => {
+      console.log('mehrdad');
+      try {
+        // Extract query parameters
+        const {
+          category,
+          jobTitle,
+          experience,
+          workType,
+          country,
+          city,
+          situation,
+          languages
+        } = req.query;
+    
+        const filter = {};
+        if (category) filter.category = category;
+        if (jobTitle) filter.jobTitle = jobTitle;
+        if (experience) filter.experience = experience;
+        if (workType) filter.workType = workType;
+        if (country) filter.country = country;
+        if (city) filter.city = city;
+        if (situation) filter.situation = situation;
+        if (languages) filter.languages = languages.split(',');
+    
+        const employees = await employeeModel.getFilteredEmployees(filter);
+    
+        console.log(employees);
+    
+        if (!employees || employees.length === 0) {
+          return res.status(404).json({ error: 'No employees found !!!!' });
+        }
+        res.status(200).json(employees);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    });
+    
       await new Promise((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream({ resource_type: 'raw' }, (error, result) => {
           if (error) {
@@ -75,6 +113,43 @@ router.post('/create', upload.fields([{ name: 'cv', maxCount: 1 }, { name: 'prof
   }
 });
 
+router.get('/list', async (req, res) => {
+  console.log('mehrdad');
+  try {
+    const {
+      category,
+      jobTitle,
+      experience,
+      workType,
+      country,
+      city,
+      situation,
+      languages
+    } = req.query;
+
+    const filter = {};
+    if (category) filter.category = category;
+    if (jobTitle) filter.jobTitle = jobTitle;
+    if (experience) filter.experience = experience;
+    if (workType) filter.workType = workType;
+    if (country) filter.country = country;
+    if (city) filter.city = city;
+    if (situation) filter.situation = situation;
+    if (languages) filter.languages = languages.split(',');
+
+    const employees = await employeeModel.getFilteredEmployees(filter);
+
+    console.log(employees);
+
+    if (!employees || employees.length === 0) {
+      return res.status(404).json({ error: 'No employees found !!!!' });
+    }
+    res.status(200).json(employees);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 router.get('/:id', async (req, res) => {
   try {
@@ -88,6 +163,5 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
 
 module.exports = router;
