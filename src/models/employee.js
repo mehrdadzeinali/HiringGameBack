@@ -84,12 +84,7 @@ module.exports = {
       params.push(...filter.languages);
     }
 
-    console.log('mehrdad')
-    console.log(sql);
-
     const [rows] = await db.query(sql, params);
-
-    console.log(rows);
 
     return rows;
   }

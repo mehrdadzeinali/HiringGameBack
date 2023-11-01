@@ -114,7 +114,6 @@ router.post('/create', upload.fields([{ name: 'cv', maxCount: 1 }, { name: 'prof
 });
 
 router.get('/list', async (req, res) => {
-  console.log('mehrdad');
   try {
     const {
       category,
@@ -138,8 +137,6 @@ router.get('/list', async (req, res) => {
     if (languages) filter.languages = languages.split(',');
 
     const employees = await employeeModel.getFilteredEmployees(filter);
-
-    console.log(employees);
 
     if (!employees || employees.length === 0) {
       return res.status(404).json({ error: 'No employees found !!!!' });
