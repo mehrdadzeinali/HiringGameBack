@@ -1,8 +1,7 @@
-const app = require('./app'); // Import the app object from app.js
+const app = require('./app');
 
-const port = 3000; // Define the port number
+const port = 3000;
 
-// Start the server
 app.listen(port, () => {
   console.log(`Server started on http://localhost:${port}`);
 });

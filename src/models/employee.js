@@ -2,11 +2,13 @@ const db = require('../config/db');
 
 module.exports = {
   async createEmployee(employeeObject) {
-    const { firstName, lastName, email, phone, linkedin, category, jobTitle, experience, workType, country, city, situation, languages, cv, profilePhoto } = employeeObject;
+    const { firstName, lastName, email, phone, linkedin, category, jobTitle, experience,
+      workType, country, city, situation, languages, cv, profilePhoto } = employeeObject;
   
     const sql = `
       INSERT INTO employee_profiles 
-      (firstName, lastName, email, phone, linkedin, category, jobTitle, experience, workType, country, city, situation, languages, cv, profilePhoto) 
+      (firstName, lastName, email, phone, linkedin, category, jobTitle, experience,
+        workType, country, city, situation, languages, cv, profilePhoto) 
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
   

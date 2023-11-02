@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const upload = multer(); // Files will be stored in memory as buffer
+const upload = multer();
 const cloudinary = require('cloudinary').v2;
-const employeeModel = require('../models/employee'); // Your employee model
+const employeeModel = require('../models/employee');
 
 cloudinary.config({ 
   cloud_name: 'dteijjl08', 
