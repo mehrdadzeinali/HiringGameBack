@@ -2,14 +2,8 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const upload = multer();
-const cloudinary = require('cloudinary').v2;
+const cloudinary = require('../config/cloudinary')
 const employeeModel = require('../models/employee');
-
-cloudinary.config({ 
-  cloud_name: 'dteijjl08', 
-  api_key: '389839192938178', 
-  api_secret: 'Py58yAs5rUiD7ipT04MiChzMT-4' 
-});
 
 router.post('/create', upload.fields([{ name: 'cv', maxCount: 1 }, { name: 'profilePhoto', maxCount: 1 }]), async (req, res) => {
   try {
